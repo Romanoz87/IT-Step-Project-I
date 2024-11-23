@@ -33,17 +33,17 @@ class BookManager(Books):
         book = {"book_id": next_id, "title": self.new_title, "author": self.new_author, "year": self.new_year}
         result.append(book)
         
-
         print("\nYour book is added in library...")
 
     # სრული სიის გამოტანის ფუნქცია
     def full_library():
-            # result = read_from_json_file()
+            
             print('-'*100)
             print(f"\n{'ID':<5}{'Title':<36}{'Author':<23}{'Year'}")
             print('='*100)
             for i in result:
                 print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<22} {i['year']}")
+
 
     #წიგნების საძიებო დასახელების მიხედვით
     def book_finder(self, finder=None):
@@ -58,21 +58,25 @@ class BookManager(Books):
                 print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<22} {i['year']}")
         print('-'*100)
 
+
 class jsonencode(JSONEncoder):
     def default(self, o):
         return o.__dict__
    
 
-
+# json ფაილში ჩაწერის ფუნქცია
 def write_to_json_file(data):
     with open('data5.json', mode='w', encoding='utf-8') as file:
         json.dump(data, file, cls=jsonencode, indent=2)
 
+# json ფაილიდან წაკითხვის ფუნქცია
 def read_from_json_file():
     with open('data5.json', mode='r', encoding='utf8') as file:
         return json.load(file)
     
 
+
+# წიგნების თავდაპირველი ბიბლიოთეკა, რომელიც იწერება ფაილში
 books = [
         Books('Anna Karenina', 'Leo Tolstoy', 1887),
         Books('The Lord of the Rings', 'J. R. R. Tolkien', 1954),
@@ -89,7 +93,7 @@ books = [
 
 json_filename = 'data5' + '.json'
     
-    # შემოწმება თუ უკვე არსებობს ფაილი
+# შემოწმება თუ უკვე არსებობს ფაილი
 if not os.path.exists(json_filename):
     try:
         write_to_json_file(books)
@@ -101,16 +105,14 @@ if not os.path.exists(json_filename):
 else:
     print(f"JSON file '{json_filename}' already exists. Skipping JSON write.")
 
-# @staticmethod
-# def get_counter():
-#     return Books.book_id
 
-result = read_from_json_file()
+
+result = read_from_json_file()  # ვიძახებთ ფაილიდან წაკითხვის ფუნქციას და ვინხავთ ცვლადში
 
 
 
 
-# მომხმარებლის მიერ ბიბლიოღთეკაზე განხორციელებული ოპერაციები:
+# მომხმარებლის მიერ ბიბლიოთეკაზე განსახორციელებული ოპერაციები:
 while True:
     time.sleep(1)
     print('''\n\nChoose action you want to do: 
@@ -119,10 +121,12 @@ while True:
     3) Type  'l' to see complate list of library 
     4) Type 'e' to Save and Exit        ''')
     print('-'*100,'\n')
+
     
-    action_list = ['a', 'A', 's', 'S', 'l', 'L', 'e', 'E']
+    action_list = ['a', 'A', 's', 'S', 'l', 'L', 'e', 'E']  # სიმბოლოების სია რომელთა გამოყენებაა შესაძლებელი
     
     action = input("Type symbol: ").lower()
+    
     if action  not in action_list:
             print("\n\nWrong command. Please type symbols from list:  ")
             continue
