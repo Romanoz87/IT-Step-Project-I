@@ -126,7 +126,7 @@ while True:
     action_list = ['a', 'A', 's', 'S', 'l', 'L', 'e', 'E']  # სიმბოლოების სია რომელთა გამოყენებაა შესაძლებელი
     
     action = input("Type symbol: ").lower()
-    
+
     if action  not in action_list:
             print("\n\nWrong command. Please type symbols from list:  ")
             continue
@@ -137,7 +137,6 @@ while True:
         # მომხმარებლის მიერ 'a' შეყვანისას იძახებს წიგნების დამატების ფუნქვიას
         if action == 'a':
                 book1 = BookManager()
-                # book1 = BookManager()
                 book1.update_books()
                 
 
