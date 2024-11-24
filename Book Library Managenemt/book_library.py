@@ -1,6 +1,7 @@
 import json, os
 from json import JSONEncoder
 import time
+from datetime import date
 
 class Books():
     book_id = 1
@@ -23,17 +24,31 @@ class BookManager(Books):
         new_author = input("Enter author: ").title()
         new_title = input("Enter title: ").title()
         new_year = input("Enter issue year: ")
-        self.new_author = new_author
-        self.new_title = new_title
-        self.new_year = new_year
-        for id in result:
-            next_id = id['book_id'] + 1
+
+        # შემოგვაქვს დღევანდელი თარიღი
+        current_date = date.today()
+        current_year = current_date.year
+
+        if len(new_year) < 5 and new_year.isdigit() and int(new_year) <= current_year:  # მომხმარებელს ვზღუდავთ, რომ გამოშვების წელში არ შეიყვანოს არასწორი სიმბოლოები და ფორმატი.
+            
+                self.new_author = new_author
+                self.new_title = new_title
+                self.new_year = new_year
+                for id in result:
+                    next_id = id['book_id'] + 1
             
        
-        book = {"book_id": next_id, "title": self.new_title, "author": self.new_author, "year": self.new_year}
-        result.append(book)
+                book = {"book_id": next_id, "title": self.new_title, "author": self.new_author, "year": self.new_year}
+                result.append(book)
+                print("\nYour book is added in library...")
+                
+        else:
+            print('\nBook not added enter valid issue year\n')
         
-        print("\nYour book is added in library...")
+
+       
+        
+        
 
     # სრული სიის გამოტანის ფუნქცია
     def full_library():
