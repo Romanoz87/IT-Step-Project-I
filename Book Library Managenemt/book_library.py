@@ -13,9 +13,8 @@ class Books():
         
         Books.book_id += 1
 
-class BookManager(Books):
-    def __init__(self, title=None, author=None, year=None):
-        super(). __init__(title, author, year)
+class BookManager():
+    def __init__(self, title=None, author=None, year=None):   
         ...  
 
     # წიგნების დამატების ფუნქცია   
