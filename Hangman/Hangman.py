@@ -31,10 +31,10 @@ while i <= 10:
             for index in indexes:
             
                 list_of[index] = list1[index]
-                
+                match += 1
             # print("\nyou guessed one symbol in word.\n")
                 print(*list_of)
-                match += 1
+               
             if match == len(selected_item):
                 print("\n....Congrats:.. you guessed the word.....")   
                 break
