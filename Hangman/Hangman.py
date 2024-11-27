@@ -10,11 +10,11 @@ list_of = [] # ცარიელი სიმბოლოების ლის
 for _ in range(len(selected_item)):
     
     list_of.append("*")
-print('\nGuess random word:_', *list_of)
+print('\nGuess random word from Fruit names\n you have 10 tries\n\n :', *list_of)
 print("\n")
 i = 1
 while i <= 10:
-    user_input = input("\ninput word or symbol to guess: ")
+    user_input = input(f"\ninput word or symbol to guess {i}-st try: ")
 
     if i < 10:
         
@@ -30,7 +30,7 @@ while i <= 10:
             
             
             if list_of == list1:
-                print("\n...congrats you guessed word..\n")
+                print(f"\n...congrats you guessed word with {i}-th try..\n")
                 break
             
                     
