@@ -27,7 +27,8 @@ try:
             print(f"{number1} / {number2} = {number1 / number2}")
 
         elif symbol == '%':
-            print(f"{number1} % {number2} = {(number2 / number1)* 100}")
+            number3 = number2/100*number1
+            print(f"{number1} % {number2} = ",  number3)
 
     else:
         raise ValueError("Invalid operator. Please use +, -, *, /, or %.")

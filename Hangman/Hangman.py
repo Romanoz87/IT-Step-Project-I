@@ -1,7 +1,7 @@
 
 from guessed_word import my_func  # ვაიმპორტირებთ ჩაფიქრებულ რანდომ სიტყვას 
 
-
+print('Guess word. in 10 try')
 selected_item = my_func()
 list1 = list(selected_item)
 
