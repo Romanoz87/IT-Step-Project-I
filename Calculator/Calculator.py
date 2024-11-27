@@ -1,6 +1,7 @@
 #Calculator 
 
 print("Calculator app")
+
 try:
     number1 = eval(input("Enter first number: "))
     number2 = eval(input("Enter second number: "))
@@ -30,9 +31,10 @@ try:
             number3 = number2/100*number1
             print(f"{number1} % {number2} = ",  number3)
 
-    else:
-        raise ValueError("Invalid operator. Please use +, -, *, /, or %.")
-    
+            
+        else:
+            raise ValueError("Invalid operator. Please use +, -, *, /, or %.")
+        
 
 
 except NameError as er:
