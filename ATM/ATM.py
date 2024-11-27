@@ -1,3 +1,5 @@
+# ATM pin 1234
+
 import time
 import json
 from json import JSONEncoder
@@ -5,16 +7,23 @@ from json import JSONEncoder
 # დეკორატორი პინ კოდით ვალიდაციისთვის
 def enter_pass(func):                             
         def wrapper(*args, **kwargs):
-            print("Enter Pin")
-            try:
-                input_pin = int(input('****'))
-                if input_pin == 1234:
-                    print("Success...\n")
-                return func()
-            except ValueError:
-                print('\nInput correct pin number\n')
-               
-            print('Wrong pin. Try again')
+            i = 1
+            while i<=3:   
+                print("Enter Pin")
+                try:
+                    input_pin = int(input('****'))
+                
+                        
+                    if input_pin == 1234:
+                        print("Success...\n")
+                        return func()
+                    else:
+                        print(f'\nInput correct pin number\n')
+                        i += 1  
+                        continue
+                except ValueError:  
+                    print("Allowed only numbers")
+            print("You entered wrong pin 3 times, your card is blocked!...")    
         return wrapper
 
 
