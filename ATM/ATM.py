@@ -1,112 +1,171 @@
-# ATM pin 1234
-
-import time
-import json
+import os, json, sys, time
 from json import JSONEncoder
 
-# დეკორატორი პინ კოდით ვალიდაციისთვის
-def enter_pass(func):                             
+
+#დეკორატორი პინ კოდით ვალიდაციისთვის
+def verification(func):                             
         def wrapper(*args, **kwargs):
-            i = 1
-            while i<=3:   
-                print("Enter Pin")
-                try:
-                    input_pin = int(input('****'))
-                
-                        
-                    if input_pin == 1234:
-                        print("Success...\n")
-                        return func()
-                    else:
-                        print(f'\nInput correct pin number\n')
-                        i += 1  
-                        continue
-                except ValueError:  
-                    print("Allowed only numbers")
-            print("You entered wrong pin 3 times, your card is blocked!...")    
+                                 
+            for pin in result:    
+                if input_pin == pin['pin'] and input_card == pin['card_id']:
+                    print("Success...\n")
+                    return func()
+            else:
+                print(f'\nInput correct pin number\n')               
+              
         return wrapper
+
+    
+# ფაილიდან ამოსაკითხი ფუნქცია
+def read_data():
+    with open('atm.json', mode='r', encoding='utf-8') as file:
+        return json.load(file)
+    
+    
+# ფაილში შენახვის ფუნქცია
+def write_data(data):
+    
+    with open("atm.json", mode = 'w', encoding='utf-8') as file:
+        json.dump(data, file, cls=jsonencode, indent=2)
 
 
 class Atm:
-    def __init__(self, ballance=5000):
+    def __init__(self, card_id=None, pin=None, ballance=None):
+        
+        self.card_id = card_id
+        self.pin = pin
         self.ballance = ballance
-
    
 #ფუნქცია თანხის გამოსატანად    
     def withdrow_cash(self, withdraw=0, fee=0.01):
-        withdraw = eval(input("Enter withdraw amount: "))
-        self.withdraw = withdraw
         
-        if self.ballance < (withdraw + (withdraw * fee)):
-            self.ballance = self.ballance
-            print("'#"*100)
-            print("Your ballance is not anough\n")
-        else:
-            time.sleep(0.5)
-            print("In process...")
-            self.ballance = self.ballance - (withdraw + (withdraw * fee))
-            return self.ballance
+        self.withdraw = withdraw
+        for bal in result:
+            if input_card == bal['card_id']:
+                if bal['ballance'] < (withdraw + (withdraw * fee)):
+                    bal['ballance'] == bal['ballance']
+                    print("-"*100)
+                    print("Your ballance is not anough\n")
+                else:
+                    time.sleep(0.5)
+                    print("In process...")
+                    bal['ballance'] = bal['ballance'] - (withdraw + (withdraw * fee))
+                    return result
         
     
 
 #ფუნქცია ბალანსის შესავსებად  
     def add_ballance(self, input_amount=0):
-        try:
-            input_amount = int(input("Please put cash in ATM: "))
-        except ValueError:
-            print('enter only numbers')
-        self.input_amount = input_amount
         
-        self.ballance += input_amount
+        self.input_amount = input_amount
+        for bal in result:
+            if input_card == bal['card_id']:
+                bal['ballance'] = bal['ballance']+ input_amount
+        
+
 
 # ფუნქცია ბალანსის სანახავად    
     def see_ballance(self):
-        print(f"Your remaining ballance is {self.ballance}$\n\n")
+        for bal in result:
+            if input_card == bal['card_id']:
+
+
+                print(f"Your remaining ballance is {bal['ballance']}$\n\n")
+
 
 class jsonencode(JSONEncoder):
     def default(self, o):
         return o.__dict__
 
 
+# მომხმარებელთა მონაცებემი, ბარათის ნომერი, პინი და ბალანსი.
+customers_data = [
+    Atm(123456789, 1234, 5000),
+    Atm(123456783, 2345, 6000),
+    Atm(456784324, 3421, 10000),
+    Atm(873213456, 1221, 700),
+    Atm(111111111, 1111, 9000),
+    Atm(112211111, 1311, 9000),   
+]
 
 
-withd1 = Atm()
+json_filename = 'ATM' + '.json'
+    
+# შემოწმება თუ უკვე არსებობს ფაილი მეორედ არ ჩაიწერება
+if not os.path.exists(json_filename):
+    try:
+        write_data(customers_data)
+       
+        print(f"Data successfully saved as {json_filename}")
+                
+    except (TypeError, OverflowError) as json_err:
+            print(f"JSON failed: {json_err}")
+else:
+    print(f"JSON file '{json_filename}' already exists. Skipping JSON write.")
 
 
 
-# ფუნქცია ძირითადი მენიუს გამოსატანად და მოქმედებების განსახორციელებლად
-
-print("Welcome..\n")
+result = read_data()  # ვიძახებთ ფაილიდან წაკითხვის ფუნქციას
 
 
-@enter_pass
+# ფუნქცია მენიუს გამოსატანად და მოქმედებების განსახორციელებლად
+
+print("\nWelcome..\n")
+
+@verification
 def action():
     while True:
         time.sleep(1)
         print("Choose action you want to do: ")
         print("Type 'b' to see your ballance\nType 'w' to withdrow cash\nType 'a' to add amount to your ballance\nType 'x' to exit")
-        action = input('\nEnter symbol___ ')
-        if action == 'x':
+
+        action = input('\nEnter symbol___ ').lower()
+
+# 'x' შეყვანის შემთხვევაში მომხმარებელი გადის ბანკომატის პროგრამიდან და ინახავს საბოლოო მონაცემს        
+        if action == 'x':                               
             print('Exit...')
-            break
+            write_data(result)
             
-        elif action == 'w':
-            withd1.withdrow_cash()
+            break
+
+# 'w' შეყვანს შემთხვევაში მომხმარებელი იძახებს თანხის გამოტანის ფუნქციას             
+        elif action == 'w':                                              
+            withdraw = eval(input("Enter withdraw amount: "))
+            customer1.withdrow_cash(withdraw)
+
+# 'a' შეყვანის შემთხვევაში მომხმარებელი იძახებს თანხის დამატების ფუნქციას
 
         elif action == 'a':
-            withd1.add_ballance()
+            try:
+                input_amount = eval(input("Please put cash in ATM: "))
+            except ValueError:
+                print('enter only numbers')
+            customer2 = Atm()
+            customer2.add_ballance(input_amount)
 
+# 'b' შეყვანის შემთხვევაში მომხმარებელი ნახულობს დარჩენილ ბალანსს
         elif action == 'b':
-            withd1.see_ballance()
+            customer1 = Atm()
+            customer1.see_ballance()
+
+        else:
+            print("\nplease enter only valid symbols ( a, b, w, or x)\n")
         
+print("Enter Id and pin numbers below \n")
+
+try:
+    input_card = int(input("input card number: _ "))
+except:
+    print("\n Wrong symbols. Allowed only numbers. ATM finished working\n ")
+    sys.exit(1)
+
+try:
+    input_pin = int(input('input pin:_  '))
+except:
+    print("\n Wrong symbols. Allowed only numbers. ATM finished working\n ")
+    sys.exit(1)
 
 action()
-
-
-
-data = json.dumps(withd1, cls=jsonencode, indent=2)
-with open("atm.json", mode = 'w', encoding='utf-8') as file:
-    json.dump(data, file, indent=2)
 
 
 
