@@ -1,9 +1,10 @@
 
-from guessed_word import my_func
+from guessed_word import my_func  # ვაიმპორტირებთ ჩაფიქრებულ რანდომ სიტყვას 
+
 
 selected_item = my_func()
 list1 = list(selected_item)
-# print(list1)
+
 list_of = [] # ცარიელი სიმბოლოების ლისტი. 
 
 
