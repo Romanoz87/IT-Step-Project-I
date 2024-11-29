@@ -65,7 +65,7 @@ class BookManager():
         finder = input("Enter book title you want to find: ").title()  
             
         for i in result:
-            if finder == i['title']:
+            if finder in i['title']:
                 print('-'*100)
                 print(f"\n{'ID':<5}{'Title':<36}{'Author':<23}{'Year'}")
                 print('='*100)
