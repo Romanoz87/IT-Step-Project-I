@@ -3,6 +3,7 @@ from json import JSONEncoder
 import time
 from datetime import date
 
+
 class Books():
     book_id = 1
     def __init__(self, title=None, author=None, year=None):
@@ -14,15 +15,14 @@ class Books():
         Books.book_id += 1
 
 class BookManager():
-    def __init__(self, title=None, author=None, year=None):   
+    def __init__(self):   
         ...  
 
     # წიგნების დამატების ფუნქცია   
-    def update_books(self,new_author=None, new_title=None, new_year=None):
-        
-        new_author = input("Enter author: ").title().strip()
-        new_title = input("Enter title: ").title().strip()
-        new_year = input("Enter issue year: ").strip()
+    def update_books(self,new_author, new_title, new_year):
+        self.new_author = new_author
+        self.new_title = new_title
+        self.new_year = new_year
 
         # შემოგვაქვს დღევანდელი თარიღი
         current_date = date.today()
@@ -30,9 +30,7 @@ class BookManager():
 
         if len(new_year) < 5 and new_year.isdigit() and int(new_year) <= current_year:  # მომხმარებელს ვზღუდავთ, რომ გამოშვების წელში არ შეიყვანოს არასწორი სიმბოლოები და ფორმატი.
             
-                self.new_author = new_author
-                self.new_title = new_title
-                self.new_year = new_year
+                
                 for id in result:
                     next_id = id['book_id'] + 1
             
@@ -45,18 +43,14 @@ class BookManager():
             print('\nBook not added enter valid issue year\n')
         
 
-       
-        
-        
-
     # სრული სიის გამოტანის ფუნქცია
     def full_library():
             
             print('-'*100)
-            print(f"\n{'ID':<5}{'Title':<36}{'Author':<23}{'Year'}")
+            print(f"\n{'ID':<5}{'Title':<37}{'Author':<35}{'Year'}")
             print('='*100)
             for i in result:
-                print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<30} {i['year']}")
+                print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<35} {i['year']}")
 
 
     #წიგნების საძიებო დასახელების მიხედვით
@@ -67,9 +61,10 @@ class BookManager():
         for i in result:
             if finder in i['title']:
                 print('-'*100)
-                print(f"\n{'ID':<5}{'Title':<36}{'Author':<23}{'Year'}")
+                print(f"\n{'ID':<5}{'Title':<36}{'Author':<35}{'Year'}")
                 print('='*100)
-                print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<22} {i['year']}")
+                print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<35}{i['year']}")
+            
         print('-'*100)
 
 
@@ -101,7 +96,6 @@ books = [
         Books('Idiot', 'Fyodor Dostoevsky', 1869),
         Books('To Kill a Mockingbird', 'Harper Lee', 1960),
         Books('The Great Gatsby', 'F. Scott Fitzgerald', 1925),
-        Books('The Life of David Gale', 'Dewey Gram', 2003),
 ]
 
 
@@ -151,12 +145,16 @@ while True:
     
         # მომხმარებლის მიერ 'a' შეყვანისას იძახებს წიგნების დამატების ფუნქვიას
         if action == 'a':
+                new_author = input("Enter author: ").title()
+                new_title = input("Enter title: ").title()
+                new_year = input("Enter issue year: ")
+
                 book1 = BookManager()
-                book1.update_books()
+                book1.update_books(new_title, new_title, new_year)
                 
 
             
-        # მომხმარებლის მიერ 's' შეყვანისას იძახებს წიგნების ძებნის ფუნქციას
+        # მომხმარებლის მიერ 's' შეყვანისას იძახებს წიგნების ძებნის ფუნქციას შესაძლებელია მხოლოდ სიტყვის ან სიმბოლოს შეყვანა და შესაბამისი შემადგენლობის სათაურებს გამოიტანს
         elif action == 's':
                 book2 = BookManager()
                 book2.book_finder()
