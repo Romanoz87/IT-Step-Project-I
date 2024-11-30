@@ -11,9 +11,12 @@ for _ in range(len(selected_item)):                    # რანდომ ს�
     
     list_of.append("*")
 
-print('\nGuess thee countr with flags\n you have 10 tries\n')
+print('\nGuess thee country with flags\nyou have 10 tries\n')
+print("-"*50)
 quest = question()
-print('\n'     ,*list_of)
+
+print('\n',*list_of)
+print("-"*50)
 
 
  # მინიშნება შემოტანილ რანდომ სიტყვაზე
@@ -30,7 +33,7 @@ while True:
         if action in symbols:
             
             if action == '1':
-                word = input("Type word here:_")
+                word = input("Type word here:_").lower().strip()
                 if word == selected_item:
                     print("\n...congrats you won with one try...\n")
                 else:
@@ -39,7 +42,7 @@ while True:
 
                 i = 1
                 while i <= 10:
-                    user_input = input(f"\ninput word or symbol to guess {i}-st try: ")
+                    user_input = input(f"\ninput word or symbol to guess {i}-st try: ").lower()
 
                     if i < 10:
                             
