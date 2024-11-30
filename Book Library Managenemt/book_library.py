@@ -20,9 +20,9 @@ class BookManager():
     # წიგნების დამატების ფუნქცია   
     def update_books(self,new_author=None, new_title=None, new_year=None):
         
-        new_author = input("Enter author: ").title()
-        new_title = input("Enter title: ").title()
-        new_year = input("Enter issue year: ")
+        new_author = input("Enter author: ").title().strip()
+        new_title = input("Enter title: ").title().strip()
+        new_year = input("Enter issue year: ").strip()
 
         # შემოგვაქვს დღევანდელი თარიღი
         current_date = date.today()
@@ -56,7 +56,7 @@ class BookManager():
             print(f"\n{'ID':<5}{'Title':<36}{'Author':<23}{'Year'}")
             print('='*100)
             for i in result:
-                print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<22} {i['year']}")
+                print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<30} {i['year']}")
 
 
     #წიგნების საძიებო დასახელების მიხედვით
@@ -101,6 +101,7 @@ books = [
         Books('Idiot', 'Fyodor Dostoevsky', 1869),
         Books('To Kill a Mockingbird', 'Harper Lee', 1960),
         Books('The Great Gatsby', 'F. Scott Fitzgerald', 1925),
+        Books('The Life of David Gale', 'Dewey Gram', 2003),
 ]
 
 

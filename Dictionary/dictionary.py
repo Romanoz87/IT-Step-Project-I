@@ -64,7 +64,10 @@ result_json = read_file()
 
 # ძირითადი მოქმედებები
 action = ["1", "2", "3"]
-
+print("=" * 50)
+print("(ინგლისურ - ქართული) და (ქართულ - ინგლისური) ლექსიკონი")
+print("(English - Georgian) and (Georgian - English) dictionary")
+print("=" * 50)
 while True:             
     time.sleep(1)
     print("-" * 50)
@@ -167,7 +170,7 @@ while True:
         elif choose_action == '3':
             print('exit..>>\nგასვლა..>>')
             break
-        
+
     else:
         print("Wrong action input. Please choose '1', '2' or '3'.")
         print("არასწორი ბრძანება, აარჩიეთ '1', '2', ან '3'.")
