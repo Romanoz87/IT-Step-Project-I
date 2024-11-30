@@ -1,24 +1,41 @@
-import json
+import json, re
 import os
 from json import JSONEncoder
 import time
 
-# Function to read the dictionary file
+# ფაილიდან წაკითხვის ფუნქცია
 def read_file():
     with open('dictionary.json', mode='r', encoding='utf-8') as file:
         return json.load(file)
     
-# Function to write the dictionary file
+
+# ფაილის ჩამწერი ფუნქცია
 def write_file(data):
     with open('dictionary.json', mode='w', encoding='utf-8') as file:
         json.dump(data, file, cls=encode_json, indent=2)
 
-# Custom encoder class
+
+# ვალიდაციის ფუნქცია ქართული სიტყვებისთვის
+def is_georgian(text):
+    
+    return bool(re.match(r'^[\u10A0-\u10FF]+$', text))
+
+
+
+# ვალიდაციის ფუნქცია ინგლისური სიტყვებისთვის
+def is_english(text):
+    
+    return bool(re.match(r'^[a-zA-Z\s]+$', text))
+
+
+
+# ენკოდერი
 class encode_json(JSONEncoder):
     def default(self, o):
         return o.__dict__
+    
 
-# Sample dictionary data
+# ლექსიკონის საწყისი ბაზა
 dictionary = [
     {"eng": "country", "geo": "ქვეყანა"},
     {"eng": "city", "geo": "ქალაქი"},
@@ -31,7 +48,7 @@ dictionary = [
     {"eng": "book", "geo": "წიგნი"},
 ]
 
-# Check if the file exists and write initial data if not
+#  ფაილის ვალიდურობის შემოწმება, თუ უკვე არსებობს, არ გადაეწერება
 if not os.path.exists('dictionary.json'):
     try:
         write_file(dictionary)
@@ -40,13 +57,15 @@ if not os.path.exists('dictionary.json'):
 else:
     print("json already exists")
 
-# Load the dictionary from the file
+
+# ფაილიდან ვტვირთავთ მონაცემებს
 result_json = read_file()
 
-# Main program logic
-action = ["1", "2", "x"]
 
-while True:
+# ძირითადი მოქმედებები
+action = ["1", "2", "3"]
+
+while True:             
     time.sleep(1)
     print("-" * 50)
     print("Choose dictionary type (აირჩიეთ ლექსიკონის ტიპი)\n")
@@ -70,19 +89,41 @@ while True:
 
             if not found:
                 print("word not found. do you want to add it to dictionary? press Y/N ")
+                print("სიტყვა ვერ მოიძებნა. დასამატებლად აარჩიეთ Y/N ")
                 add = input("_").strip().lower()
+
                 if add == 'y':
-                    eng_word = input("Input English word to add in library: ").strip()
-                    ge_word = input("Input Georgian translation: ").strip()
-                    new_data = {'eng': eng_word, 'geo': ge_word}
-                    result_json.append(new_data)
-                    write_file(result_json)
-                    print(f"New word '{eng_word}' added to dictionary.")
+                    # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ინგლისურ ენაზე
+                    while True: 
+                        eng_word = input("Input English word to add in library - შეიყვანეთ ინგლისური სიტყვა რათა დავამატოთ ლექსიკონში: ").strip()
+                        if not is_english(eng_word):
+                            print("Invalid English input. Please enter a word in English.")
+                            print("უნდა შეიყვანოთ ლათინური სიმბოლოები.")
+                        else:
+                            break
+                                
+                    # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ქართულ ენაზე      
+                    while True:
+                        ge_word = input("Input Georgian translation - შეიყვანეთ ქართული თარგმანი: ").strip()
+
+                        if is_georgian(ge_word):
+                            new_data = {'eng': eng_word, 'geo': ge_word}
+                            result_json.append(new_data)
+                            write_file(result_json)
+                            print(f"New word '{eng_word}' added to dictionary.")
+                            print(f"ახალი სიტყვა '{eng_word}' დაემატა ბიბლიოთეკაში.")
+                            break
+                        else:
+                            print("Invalid Georgian input. Please enter a word in Georgian.")
+                            print("უნდა შეიყვანოთ ქართული სიმბოლოები.")
+                            
+
+                        
                 elif add == 'n':
-                    print("No word added.")
+                    print("Deny - უარყოფა")
         
         elif choose_action == '2':
-            geo_input = input('შეიყვანე ქართული სიტყვა: ').strip()
+            geo_input = input('Enter Georgian word - შეიყვანე ქართული სიტყვა: ').strip()
             found = False
             for book in result_json:
                 if geo_input == book['geo'].strip():
@@ -93,20 +134,40 @@ while True:
             if not found:
                  if not found:
                     print("word not found. do you want to add it to dictionary? press Y/N ")
+                    print("სიტყვა ვერ მოიძებნა. დასამატებლად აარჩიეთ Y/N ")
                     add = input("_").strip().lower()
                     if add == 'y':
-                        ge_word = input("Input Georgian word to add in library: ").strip()
-                        eng_word = input("Input English translation: ").strip()
-                        
-                        new_data = {'eng': eng_word, 'geo': ge_word}
-                        result_json.append(new_data)
-                        write_file(result_json)
-                        print(f"New word '{ge_word}' added to dictionary.")
+
+                        # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ქართულ ენაზე
+                        while True:
+                            ge_word = input("Input Georgian word to add in library - შეიყვანეთ ქართული სიტყვა რათა დავამატოთ ლექსიკონში: ").strip()
+                            if not is_georgian(ge_word):
+                                print("Invalid Georgian input. Please enter a word in Georgian.")
+                                print("უნდა შეიყვანოთ ქართული სიმბოლოები.")
+                            else:
+                                break
+
+                        # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ინგლისურ ენაზე        
+                        while True:
+                            eng_word = input("Input English translation - შეიყვანეთ ინგლისური თარგმანი ").strip()
+                            if is_english(eng_word):
+                                new_data = {'eng': eng_word, 'geo': ge_word}
+                                result_json.append(new_data)
+                                write_file(result_json)
+                                print(f"New word '{eng_word}' added to dictionary.")
+                                print(f"ახალი სიტყვა '{eng_word}' დაემატა ბიბლიოთეკაში.")
+                                break
+                            else:
+                                print("Invalid Georgian input. Please enter a word in English.")
+                                print("უნდა შეიყვანოთ ლათინური სიმბოლოები.")
+
                     elif add == 'n':
-                        print("No word added.")
+                        print("Deny - უარყოფა")
         
         elif choose_action == '3':
             print('exit..>>\nგასვლა..>>')
             break
+        
     else:
         print("Wrong action input. Please choose '1', '2' or '3'.")
+        print("არასწორი ბრძანება, აარჩიეთ '1', '2', ან '3'.")
