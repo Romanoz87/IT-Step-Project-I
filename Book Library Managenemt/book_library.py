@@ -125,9 +125,13 @@ result = read_from_json_file()  # ვიძახებთ ფაილიდა
 while True:
     time.sleep(1)
     print('''\n\nChoose action you want to do: 
+    ============================================     
     1) Type 'a' to add new book in library..
+    --------------------------------------------
     2) Type 's' to search for book
-    3) Type  'l' to see complate list of library 
+    --------------------------------------------     
+    3) Type 'l' to see complate list of library 
+    --------------------------------------------     
     4) Type 'e' to Save and Exit        ''')
     print('-'*100,'\n')
 
