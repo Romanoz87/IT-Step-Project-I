@@ -148,7 +148,7 @@ while True:
                 new_year = input("Enter issue year: ")
 
                 book1 = BookManager()
-                book1.update_books(new_title, new_title, new_year)
+                book1.update_books(new_title, new_author, new_year)
                 
 
             
