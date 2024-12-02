@@ -20,7 +20,7 @@ def verification(func):
                         print("Success...\n")
                         return func()
                 else:    
-                    print(f'\nInput correct pin number\n')
+                    print(f'\nAccess denyed. Try again. Input correct id and pin\n')
                              
         return wrapper
     
