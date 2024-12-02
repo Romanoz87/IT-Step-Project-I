@@ -1,39 +1,47 @@
 import os, json, sys, time
 from json import JSONEncoder
 
+# მომხმარებელთა ბარათის ნომრები და პინები
+    # (123456789, 1234, 5000),
+    # (123456783, 2345, 6000),
+    # (456784324, 3421, 10000),
+    # (873213456, 1221, 700),
+    # (111111111, 1111, 9000),
+    # (112211111, 1311, 9000),   
+
 
 #დეკორატორი პინ კოდით ვალიდაციისთვის
 def verification(func):                             
         def wrapper(*args, **kwargs):
-                                 
-            for pin in result:    
-                if input_pin == pin['pin'] and input_card == pin['card_id']:
-                    print("Success...\n")
-                    return func()
-            else:
-                print(f'\nInput correct pin number\n')               
-              
+                         
+                for pin in result:
+                        
+                    if input_pin == pin['_Atm__pin'] and input_card == pin['_Atm__card_id']:
+                        print("Success...\n")
+                        return func()
+                else:    
+                    print(f'\nInput correct pin number\n')
+                             
         return wrapper
 
-    
+     
+
 # ფაილიდან ამოსაკითხი ფუნქცია
 def read_data():
     with open('atm.json', mode='r', encoding='utf-8') as file:
         return json.load(file)
-    
-    
 # ფაილში შენახვის ფუნქცია
 def write_data(data):
     
     with open("atm.json", mode = 'w', encoding='utf-8') as file:
         json.dump(data, file, cls=jsonencode, indent=2)
 
-
+# ძირითადი კლასი მონაცემთა ბაზის შესაქმნელად
 class Atm:
     def __init__(self, card_id=None, pin=None, ballance=None):
         
-        self.card_id = card_id
-        self.pin = pin
+        self.__card_id = card_id
+        self.__pin = pin
         self.ballance = ballance
    
 #ფუნქცია თანხის გამოსატანად    
@@ -41,7 +49,7 @@ class Atm:
         
         self.withdraw = withdraw
         for bal in result:
-            if input_card == bal['card_id']:
+            if input_card == bal['_Atm__card_id']:
                 if bal['ballance'] < (withdraw + (withdraw * fee)):
                     bal['ballance'] == bal['ballance']
                     print("-"*100)
@@ -54,12 +62,12 @@ class Atm:
         
     
 
-#ფუნქცია ბალანსის შესავსებად  
+# ფუნქცია ბალანსის შესავსებად  
     def add_ballance(self, input_amount=0):
         
         self.input_amount = input_amount
         for bal in result:
-            if input_card == bal['card_id']:
+            if input_card == bal['_Atm__card_id']:
                 bal['ballance'] = bal['ballance']+ input_amount
         
 
@@ -67,10 +75,19 @@ class Atm:
 # ფუნქცია ბალანსის სანახავად    
     def see_ballance(self):
         for bal in result:
-            if input_card == bal['card_id']:
+            if input_card == bal['_Atm__card_id']:
 
-
+                print("-"*50)
                 print(f"Your remaining ballance is {bal['ballance']}$\n\n")
+                print("-"*50)
+# ფუნქცია პინის შესაცვლელად    
+    def change_pin(self, new_pin):
+        self.new_pin = new_pin
+        for pin in result:
+            if input_card == pin['_Atm__card_id']:
+                pin['_Atm__pin'] = self.new_pin
+
+
 
 
 class jsonencode(JSONEncoder):
@@ -117,7 +134,7 @@ def action():
     while True:
         time.sleep(1)
         print("Choose action you want to do: ")
-        print("Type 'b' to see your ballance\nType 'w' to withdrow cash\nType 'a' to add amount to your ballance\nType 'x' to exit")
+        print("Type 'b' to see your ballance\nType 'w' to withdrow cash\nType 'a' to add amount to your ballance\nType 'p' to change pin code\nType 'x' to exit")
 
         action = input('\nEnter symbol___ ').lower()
 
@@ -148,8 +165,27 @@ def action():
             customer1 = Atm()
             customer1.see_ballance()
 
+# 'p' შეყვანის შემთხვევაში  ვიძახებთ პინის შეცვლის ფუნქციას       
+        elif action == 'p':
+            
+                customer1 = Atm()                
+                while True:
+                    try:
+                        new_pin = int(input('change new pin'))
+                        
+                        # ვამოწმებთ რომ მომხმარებელმა მხოლოდ 4 სიმბოლო შეიყვანოს
+                        if len(str(new_pin)) == 4:                          
+                            customer1.change_pin(new_pin)
+                            print("\nPin is changed\n")
+                            break                       
+                        else:
+                            print("Invalid input. Please make sure you enter exactly 4 digits.")
+                    except ValueError:
+                        print("wrong symbols, try only numbers")
+                        
         else:
-            print("\nplease enter only valid symbols ( a, b, w, or x)\n")
+            print("\nplease enter only valid symbols ( a, b, w, p or x)\n")
+
         
 print("Enter Id and pin numbers below \n")
 
