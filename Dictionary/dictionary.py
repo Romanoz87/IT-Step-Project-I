@@ -7,18 +7,21 @@ import time
 def read_file():
     with open('dictionary.json', mode='r', encoding='utf-8') as file:
         return json.load(file)
-    
+#======================================================================================================
+   
 
 # ფაილის ჩამწერი ფუნქცია
 def write_file(data):
     with open('dictionary.json', mode='w', encoding='utf-8') as file:
         json.dump(data, file, cls=encode_json, indent=2)
+#======================================================================================================
 
 
 # ვალიდაციის ფუნქცია ქართული სიტყვებისთვის
 def is_georgian(text):
     
     return bool(re.match(r'^[\u10A0-\u10FF]+$', text))
+#======================================================================================================
 
 
 
@@ -26,6 +29,7 @@ def is_georgian(text):
 def is_english(text):
     
     return bool(re.match(r'^[a-zA-Z\s]+$', text))
+#======================================================================================================
 
 
 
@@ -33,7 +37,7 @@ def is_english(text):
 class encode_json(JSONEncoder):
     def default(self, o):
         return o.__dict__
-    
+#======================================================================================================    
 
 # ლექსიკონის საწყისი ბაზა
 dictionary = [
@@ -48,6 +52,7 @@ dictionary = [
     {"eng": "book", "geo": "წიგნი"},
 ]
 
+#======================================================================================================
 #  ფაილის ვალიდურობის შემოწმება, თუ უკვე არსებობს, არ გადაეწერება
 if not os.path.exists('dictionary.json'):
     try:
@@ -56,37 +61,47 @@ if not os.path.exists('dictionary.json'):
         print(f"Failed to write JSON: {e}")
 else:
     print("json already exists")
-
+#======================================================================================================
 
 # ფაილიდან ვტვირთავთ მონაცემებს
 result_json = read_file()
 
+#======================================================================================================
 
 # ძირითადი მოქმედებები
 action = ["1", "2", "3"]
-print("=" * 50)
+print("=" * 55)
 print("(ინგლისურ - ქართული) და (ქართულ - ინგლისური) ლექსიკონი")
 print("(English - Georgian) and (Georgian - English) dictionary")
-print("=" * 50)
+print("=" * 55)
+#------------------------------------------------------------------------------------------------------
 while True:             
     time.sleep(1)
-    print("-" * 50)
+    print("-" * 55)
     print("Choose dictionary type (აირჩიეთ ლექსიკონის ტიპი)\n")
     print("1)English-Georgian - ინგლისურ-ქართული ლექსიკონი")
     print("2)Georgian-English - ქართულ-ინგლისური ლექსიკონი")
     
     print("3)exit - გასასვლა >>")
-    print("=" * 50)
+    print("=" * 55)
 
     choose_action = input("Choose 1, 2 or '3':\nაარჩიეთ 1, 2 ან '3':\n:_ ").strip()
 
     if choose_action in action:
+# ინგლისურ - ქართილი ლექსიკონის ბლოკი__________________________________________________________________
         if choose_action == '1':
-            eng_input = input('Enter English word - შეიყვანე ინგლისური სიტყვა: ').strip().lower()
+            # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ინგლისურ ენაზე      
+            while True:
+                eng_input = input('Enter English word - შეიყვანე ინგლისური სიტყვა: ').strip().lower()
+                if not is_english(eng_input):
+                    print("Invalid English input. Please enter a word in English.")
+                    print("უნდა შეიყვანოთ ლათინური სიმბოლოები.")
+                else:
+                    break
             found = False
             for book in result_json:
                 if eng_input == book['eng'].strip().lower():
-                    print("-"*50, f"\n{book['eng']}: {book['geo']}\n")
+                    print("-"*55, f"\n{book['eng']}: {book['geo']}\n")
                     found = True
                     break
 
@@ -95,10 +110,10 @@ while True:
                 print("სიტყვა ვერ მოიძებნა. დასამატებლად აარჩიეთ Y/N ")
                 add = input("_").strip().lower()
 
-                if add == 'y':
+                if add == 'y' or add == 'ყ':
                     # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ინგლისურ ენაზე
                     while True: 
-                        eng_word = input("Input English word to add in library - შეიყვანეთ ინგლისური სიტყვა რათა დავამატოთ ლექსიკონში: ").strip()
+                        eng_word = input("Input English word to add in library - შეიყვანეთ ინგლისური სიტყვა რათა დავამატოთ ლექსიკონში: ").lower().strip()
                         if not is_english(eng_word):
                             print("Invalid English input. Please enter a word in English.")
                             print("უნდა შეიყვანოთ ლათინური სიმბოლოები.")
@@ -107,7 +122,7 @@ while True:
                                 
                     # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ქართულ ენაზე      
                     while True:
-                        ge_word = input("Input Georgian translation - შეიყვანეთ ქართული თარგმანი: ").strip()
+                        ge_word = input("Input Georgian translation - შეიყვანეთ ქართული თარგმანი: ").lower().strip()
 
                         if is_georgian(ge_word):
                             new_data = {'eng': eng_word, 'geo': ge_word}
@@ -124,9 +139,23 @@ while True:
                         
                 elif add == 'n':
                     print("Deny - უარყოფა")
-        
+                    break
+                else:
+                    print("Deny - უარყოფა")
+                    break
+
+# ქართულ-ინგლისური ლექსიკონის ბლოკი__________________________________________________________________
+       
         elif choose_action == '2':
-            geo_input = input('Enter Georgian word - შეიყვანე ქართული სიტყვა: ').strip()
+            # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ქართულ ენაზე      
+            while True:
+                geo_input = input('Enter Georgian word - შეიყვანე ქართული სიტყვა: ').lower().strip()               
+                if not is_georgian(geo_input):
+                    print("Invalid Georgian input. Please enter a word in Georgian.")
+                    print("უნდა შეიყვანოთ ქართული სიმბოლოები.")
+                else:
+                    break
+
             found = False
             for book in result_json:
                 if geo_input == book['geo'].strip():
@@ -139,11 +168,11 @@ while True:
                     print("word not found. do you want to add it to dictionary? press Y/N ")
                     print("სიტყვა ვერ მოიძებნა. დასამატებლად აარჩიეთ Y/N ")
                     add = input("_").strip().lower()
-                    if add == 'y':
+                    if add == 'y' or add == 'ყ':
 
                         # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ქართულ ენაზე
                         while True:
-                            ge_word = input("Input Georgian word to add in library - შეიყვანეთ ქართული სიტყვა რათა დავამატოთ ლექსიკონში: ").strip()
+                            ge_word = input("Input Georgian word to add in library - შეიყვანეთ ქართული სიტყვა რათა დავამატოთ ლექსიკონში: ").lower().strip()
                             if not is_georgian(ge_word):
                                 print("Invalid Georgian input. Please enter a word in Georgian.")
                                 print("უნდა შეიყვანოთ ქართული სიმბოლოები.")
@@ -152,7 +181,7 @@ while True:
 
                         # ვახდენთ ვალიდაციას, რომ მომხმარებელმა შეიყვანოს სიტყვა ინგლისურ ენაზე        
                         while True:
-                            eng_word = input("Input English translation - შეიყვანეთ ინგლისური თარგმანი ").strip()
+                            eng_word = input("Input English translation - შეიყვანეთ ინგლისური თარგმანი ").lower().strip()
                             if is_english(eng_word):
                                 new_data = {'eng': eng_word, 'geo': ge_word}
                                 result_json.append(new_data)
@@ -166,6 +195,10 @@ while True:
 
                     elif add == 'n':
                         print("Deny - უარყოფა")
+                        break   
+                    else:
+                        print("Deny - უარყოფა")
+                        break
         
         elif choose_action == '3':
             print('exit..>>\nგასვლა..>>')

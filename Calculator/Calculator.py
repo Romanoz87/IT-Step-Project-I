@@ -3,9 +3,10 @@ import sys
 
 print("Calculator app")
 while True:
-    allowed_symbols = ['+', '-', '*', '/', '%', 'x']
+    allowed_symbols = ['+', '-', '*', '/', '%', 'x']  # ნებადართული მოქმედებების სიმბოლოები 
     print("-"*100)
     symbol = input("Enter Mathematical operation (+, -, *, /, % or x): ").lower()
+    
     if symbol in allowed_symbols and symbol == 'x':
         print("exit calculator")
         sys.exit(1)
@@ -15,8 +16,6 @@ while True:
                 
                 number1 = eval(input("Enter first number: "))
                 number2 = eval(input("Enter second number: "))
-
-            
 
                 if symbol == '+':
                     print(f"{number1} + {number2} = {number1 + number2}")

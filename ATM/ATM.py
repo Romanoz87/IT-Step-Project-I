@@ -134,7 +134,7 @@ def action():
         print("Choose action you want to do: ")
         print("Type 'b' to see your ballance\nType 'w' to withdrow cash\nType 'a' to add amount to your ballance\nType 'p' to change pin code\nType 'x' to exit")
 
-        action = input('\nEnter symbol___ ').lower()
+        action = input('\nEnter symbol___ ').lower().strip()
 #_________________________________________________________________________________________________________________
 # 'x' შეყვანის შემთხვევაში მომხმარებელი გადის ბანკომატის პროგრამიდან და ინახავს საბოლოო მონაცემს        
         if action == 'x':                               

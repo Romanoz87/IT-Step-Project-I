@@ -2,20 +2,20 @@ import random
 from random import randint
 import time
 
-random_number = randint(1, 100)
+random_number = randint(1, 100)  # რანდომ რიცხვი 1 დან  100 - მდე
 
 user_input = 0
 print('#'*100)
 print("\n\nLets guess random number from 1 to 100\n\nYou have 7 try\n")
 
 i = 1
-while i <=7:
+
+while i <=7:  
     try:
         user_input = int(input(f"input number. Try {i}:  "))
     
         
-        if i < 7:
-            
+        if i < 7:           
             if user_input == random_number: 
                 print(f"Congrats.. You Guessed number with {i} try\n")
                 break
@@ -25,8 +25,7 @@ while i <=7:
 
             elif user_input > random_number:   
                 print(f"Wrong number.. Please enter smaller number...\n")
-        else:
-            
+        else:       
             print("sorry you didn't guess number with 7 triesn\n")
             
         i +=1

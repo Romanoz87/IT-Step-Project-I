@@ -3,7 +3,7 @@ from json import JSONEncoder
 import time
 from datetime import date
 
-
+#======================================================================================================
 class Books():
     book_id = 1
     def __init__(self, title=None, author=None, year=None):
@@ -13,12 +13,12 @@ class Books():
         self.year = year
         
         Books.book_id += 1
-
+#======================================================================================================
 class BookManager():
     def __init__(self):   
         ...  
 
-    # წიგნების დამატების ფუნქცია   
+# წიგნების დამატების ფუნქცია ---------------------------------------------------------------------  
     def update_books(self,new_author, new_title, new_year):
         self.new_author = new_author
         self.new_title = new_title
@@ -43,7 +43,7 @@ class BookManager():
             print('\nBook not added enter valid issue year\n')
         
 
-    # სრული სიის გამოტანის ფუნქცია
+# სრული სიის გამოტანის ფუნქცია ----------------------------------------------------------------
     def full_library():
             
             print('-'*100)
@@ -53,7 +53,7 @@ class BookManager():
                 print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<35} {i['year']}")
 
 
-    #წიგნების საძიებო დასახელების მიხედვით
+#წიგნების საძიებო დასახელების მიხედვით-------------------------------------------------------
     def book_finder(self, finder=None):
         self.finder = finder
         finder = input("Enter book title you want to find: ").title()  
@@ -66,13 +66,13 @@ class BookManager():
                 print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<35}{i['year']}")
             
         print('-'*100)
-
-
+#=======================================================================================================
+#ენკოდერი
 class jsonencode(JSONEncoder):
     def default(self, o):
         return o.__dict__
    
-
+#======================================================================================================
 # json ფაილში ჩაწერის ფუნქცია
 def write_to_json_file(data):
     with open('data5.json', mode='w', encoding='utf-8') as file:
@@ -84,7 +84,7 @@ def read_from_json_file():
         return json.load(file)
     
 
-
+#======================================================================================================
 # წიგნების თავდაპირველი ბიბლიოთეკა, რომელიც იწერება ფაილში
 books = [
         Books('Anna Karenina', 'Leo Tolstoy', 1887),
@@ -99,7 +99,7 @@ books = [
 ]
 
 
-
+#======================================================================================================
 json_filename = 'data5' + '.json'
     
 # შემოწმება თუ უკვე არსებობს ფაილი
@@ -113,14 +113,10 @@ if not os.path.exists(json_filename):
             print(f"JSON failed: {json_err}")
 else:
     print(f"JSON file '{json_filename}' already exists. Skipping JSON write.")
-
-
-
+    
 result = read_from_json_file()  # ვიძახებთ ფაილიდან წაკითხვის ფუნქციას და ვინხავთ ცვლადში
 
-
-
-
+#======================================================================================================
 # მომხმარებლის მიერ ბიბლიოთეკაზე განსახორციელებული ოპერაციები:
 while True:
     time.sleep(1)
@@ -145,9 +141,7 @@ while True:
             continue
     else:
 
-    
-    
-        # მომხმარებლის მიერ 'a' შეყვანისას იძახებს წიგნების დამატების ფუნქვიას
+        # მომხმარებლის მიერ 'a' შეყვანისას იძახებს წიგნების დამატების ფუნქვიას--------------------
         if action == 'a':
                 new_author = input("Enter author: ").title()
                 new_title = input("Enter title: ").title()
