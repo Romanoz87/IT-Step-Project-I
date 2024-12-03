@@ -28,9 +28,7 @@ def verification(func):
                         print("wrong pin")
             else:    
                 print(f'\nAccess denyed. You entered wrong pin 3 times\n')
-                    
-                
-                             
+                                             
         return wrapper
     
 #==================================================================================================
@@ -101,7 +99,7 @@ class Atm:
 
 
             
-                
+# ენკოდერი                
 class jsonencode(JSONEncoder):
     def default(self, o):
         return o.__dict__

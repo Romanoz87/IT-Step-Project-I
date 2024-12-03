@@ -174,7 +174,7 @@ while True:
         elif action == 'l':
                 BookManager.full_library()
                 
-        # მომხმარებლის მიერ '' შეყვანისას იძახებს წიგნის წაშლის ფუნქციას
+        # მომხმარებლის მიერ 'd' შეყვანისას იძახებს წიგნის წაშლის ფუნქციას
         elif action == 'd':
             while True:
                 try:
