@@ -139,10 +139,10 @@ while True:
                         
                 elif add == 'n':
                     print("Deny - უარყოფა")
-                    break
+                    
                 else:
                     print("Deny - უარყოფა")
-                    break
+                    
 
 # ქართულ-ინგლისური ლექსიკონის ბლოკი__________________________________________________________________
        
@@ -195,10 +195,10 @@ while True:
 
                     elif add == 'n':
                         print("Deny - უარყოფა")
-                        break   
+                           
                     else:
                         print("Deny - უარყოფა")
-                        break
+                        
         
         elif choose_action == '3':
             print('exit..>>\nგასვლა..>>')

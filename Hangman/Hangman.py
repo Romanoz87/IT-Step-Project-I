@@ -29,8 +29,10 @@ while True:
                 word = input("Type word here:_").lower().strip()
                 if word == selected_item:
                     print("\n...congrats you won with one try...\n")
+                    break
                 else:
                     print('\nSorry you lose')
+                    break
 
             elif action == '2':
                 i = 1
@@ -48,6 +50,7 @@ while True:
                                     
                             print("you guessed one symbol in word.\n")
                             print(*list_of)
+
                                             
                             if list_of == list1:                                                        # თუ ამოცნობილი სიმბოლოების ლისტი გაუტოლდა რანდომ ლისტს, მომხმარებელი იმარჯვებს
                                 print(f"\n...congrats you guessed word with {i}-th try..\n")
@@ -59,9 +62,13 @@ while True:
                 else:
                         
                     print("\nSorry you didnt guess the word\n")
-                print("...Game Over...")
+                
+                break
         else:
             print("Wrong symbol. please choose 1) or 2) ")
+
+
+print("...Game Over...")
 
             
                 
