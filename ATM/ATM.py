@@ -60,6 +60,7 @@ class Atm:
                     time.sleep(0.5)
                     print("In process...")
                     bal['ballance'] = bal['ballance'] - (withdraw + (withdraw * fee))
+                    print(f"\nWithdrown {withdraw}$. Remaining ballance is {bal['ballance']}$.\n")
                     return result
 #==================================================================================================
 # ფუნქცია ბალანსის შესავსებად  
@@ -69,6 +70,7 @@ class Atm:
         for bal in result:
             if input_card == bal['_Atm__card_id']:
                 bal['ballance'] = bal['ballance']+ input_amount
+                print(f"\nAmount of {input_amount}$ added to yout ballance. Your ballance is {bal['ballance']}$\n")
         
 #==================================================================================================
 # ფუნქცია ბალანსის სანახავად    
@@ -131,8 +133,10 @@ print("\nWelcome..\n")
 def action():
     while True:
         time.sleep(1)
+        print("-"*60)
         print("Choose action you want to do: ")
         print("Type 'b' to see your ballance\nType 'w' to withdrow cash\nType 'a' to add amount to your ballance\nType 'p' to change pin code\nType 'x' to exit")
+        print("-"*60)
 
         action = input('\nEnter symbol___ ').lower().strip()
 #_________________________________________________________________________________________________________________
@@ -144,7 +148,8 @@ def action():
             break
 #_________________________________________________________________________________________________________________
 # 'w' შეყვანს შემთხვევაში მომხმარებელი იძახებს თანხის გამოტანის ფუნქციას             
-        elif action == 'w':                                              
+        elif action == 'w':    
+            customer1 = Atm()                                          
             withdraw = eval(input("Enter withdraw amount: "))
             customer1.withdrow_cash(withdraw)
 #_________________________________________________________________________________________________________________
