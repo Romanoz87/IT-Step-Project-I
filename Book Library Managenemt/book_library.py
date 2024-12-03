@@ -52,8 +52,8 @@ class BookManager():
             for i in result:
                 print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<35} {i['year']}")
 
-    def remove_book(self, id_input):
-         
+# წიგნის წაშლის ფუნქცია ------------------------------------------------------------------------
+    def remove_book(self, id_input):      
         for book in result:
             if id_input == book['book_id']:
                 result.remove(book)
@@ -63,10 +63,6 @@ class BookManager():
             print("\nWrong Id")
             
                 
-                    
-                    
-                        
-
 #წიგნების საძიებო დასახელების მიხედვით-------------------------------------------------------
     def book_finder(self, finder=None):
         self.finder = finder
@@ -177,7 +173,8 @@ while True:
         # მომხმარებლის მიერ 'l' შეყვანისას იახებს სრული ბიბლიოთეკის გამოტანის ფუნქციას
         elif action == 'l':
                 BookManager.full_library()
-
+                
+        # მომხმარებლის მიერ '' შეყვანისას იძახებს წიგნის წაშლის ფუნქციას
         elif action == 'd':
             while True:
                 try:
