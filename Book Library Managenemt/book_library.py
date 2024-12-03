@@ -52,6 +52,20 @@ class BookManager():
             for i in result:
                 print(f"{i['book_id']:<5}{i['title']:<35} {i['author']:<35} {i['year']}")
 
+    def remove_book(self, id_input):
+         
+        for book in result:
+            if id_input == book['book_id']:
+                result.remove(book)
+                print(f"\nbook with id {id_input} removed\n")
+                break             
+        else:
+            print("\nWrong Id")
+            
+                
+                    
+                    
+                        
 
 #წიგნების საძიებო დასახელების მიხედვით-------------------------------------------------------
     def book_finder(self, finder=None):
@@ -127,12 +141,14 @@ while True:
     2) Type 's' to search for book
     --------------------------------------------     
     3) Type 'l' to see complate list of library 
+    --------------------------------------------
+    4) Type 'd' to remove book
     --------------------------------------------     
-    4) Type 'e' to Save and Exit        ''')
+    5) Type 'e' to Save and Exit        ''')
     print('-'*100,'\n')
 
     
-    action_list = ['a', 'A', 's', 'S', 'l', 'L', 'e', 'E']  # სიმბოლოების სია რომელთა გამოყენებაა შესაძლებელი
+    action_list = ['a', 'A', 's', 'S', 'l', 'L', 'e', 'E', 'd', 'D']  # სიმბოლოების სია რომელთა გამოყენებაა შესაძლებელი
     
     action = input("Type symbol: ").lower()
 
@@ -162,6 +178,15 @@ while True:
         elif action == 'l':
                 BookManager.full_library()
 
+        elif action == 'd':
+            while True:
+                try:
+                    id_input = int(input("choose book id to remove it"))
+                    book1 = BookManager()
+                    book1.remove_book(id_input)
+                    break
+                except ValueError:
+                    print("\nEnter correct number of book ID\n")
 
         # მომხმარებლის მიერ 'e' შეყვანისას ასრულებს პროგრამის მუშაობას
         elif action == 'e':
