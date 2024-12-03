@@ -1,0 +1,32 @@
+[
+  {
+    "_Atm__card_id": 123456789,
+    "_Atm__pin": 1234,
+    "ballance": 5000
+  },
+  {
+    "_Atm__card_id": 123456783,
+    "_Atm__pin": 2345,
+    "ballance": 6000
+  },
+  {
+    "_Atm__card_id": 456784324,
+    "_Atm__pin": 3421,
+    "ballance": 10000
+  },
+  {
+    "_Atm__card_id": 873213456,
+    "_Atm__pin": 1221,
+    "ballance": 700
+  },
+  {
+    "_Atm__card_id": 111111111,
+    "_Atm__pin": 1111,
+    "ballance": 9000
+  },
+  {
+    "_Atm__card_id": 112211111,
+    "_Atm__pin": 1311,
+    "ballance": 9000
+  }
+]

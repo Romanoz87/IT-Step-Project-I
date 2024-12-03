@@ -12,15 +12,24 @@ from json import JSONEncoder
 #==================================================================================================
 #დეკორატორი პინ კოდით ვალიდაციისთვის
 def verification(func):                             
-        def wrapper(*args, **kwargs):
-                         
-                for pin in result:
-                        
+        def wrapper(input_card, *args, **kwargs):
+            
+            for _ in range(3):      
+                try:
+                    input_pin = int(input('input pin:_  '))
+                 
+                except:
+                    print("\nWrong symbols. Allowed only numbers.\n ")   
+                for pin in result:                        
                     if input_pin == pin['_Atm__pin'] and input_card == pin['_Atm__card_id']:
                         print("Success...\n")
                         return func()
-                else:    
-                    print(f'\nAccess denyed. Try again. Input correct id and pin\n')
+                else:
+                        print("wrong pin")
+            else:    
+                print(f'\nAccess denyed. You entered wrong pin 3 times\n')
+                    
+                
                              
         return wrapper
     
@@ -89,7 +98,10 @@ class Atm:
             if input_card == pin['_Atm__card_id']:
                 pin['_Atm__pin'] = self.new_pin
 
-#  ენკოდერი
+
+
+            
+                
 class jsonencode(JSONEncoder):
     def default(self, o):
         return o.__dict__
@@ -133,10 +145,10 @@ print("\nWelcome..\n")
 def action():
     while True:
         time.sleep(1)
-        print("-"*60)
+        print("-"*50)
         print("Choose action you want to do: ")
         print("Type 'b' to see your ballance\nType 'w' to withdrow cash\nType 'a' to add amount to your ballance\nType 'p' to change pin code\nType 'x' to exit")
-        print("-"*60)
+        print("-"*50)
 
         action = input('\nEnter symbol___ ').lower().strip()
 #_________________________________________________________________________________________________________________
@@ -144,8 +156,10 @@ def action():
         if action == 'x':                               
             print('Exit...')
             write_data(result)
+
+            sys.exit(1)
             
-            break
+            
 #_________________________________________________________________________________________________________________
 # 'w' შეყვანს შემთხვევაში მომხმარებელი იძახებს თანხის გამოტანის ფუნქციას             
         elif action == 'w':    
@@ -189,23 +203,31 @@ def action():
             print("\nplease enter only valid symbols ( a, b, w, p or x)\n")
 
 #==================================================================================================================================
-# მომხმარებელს კონსოლიდან შეჰყავს id ბარათის მონაცემები და პინ კოდი გამოირიცხება არასწორი სიმბოლოების შეყვანა
-print("Enter Id and pin numbers below \n")
+# მომხმარებელს კონსოლიდან შეჰყავს id ბარათის მონაცემები, გამოირიცხება არასწორი სიმბოლოების შეყვანა
+print("Enter card ID number below\n")
 
-try:
-    input_card = int(input("input card number: _ "))
-except:
-    print("\n Wrong symbols. Allowed only numbers. ATM finished working\n ")
-    sys.exit(1)
+for _ in range(3):
+    try:      
+        input_card = int(input("input card number: _ "))
+        if len(str(input_card)) != 9:
+            print("Allowed only 8 symbols")       
+        else: 
+            break
+    except:
+        print("\nWrong symbols. Allowed only numbers\n ")
+ 
+else:
+    print("You entered wrong card Id 3 times. Card was blocked")
+    sys.exit(1)  
 
-try:
-    input_pin = int(input('input pin:_  '))
-except:
-    print("\n Wrong symbols. Allowed only numbers. ATM finished working\n ")
-    sys.exit(1)
+for _ in range(3):                   # მომხმარებელს 3 ჯერ ვაძლევთ შესაძლებლობას შეიყვანოს სწორი მონაცემები და მოახდინოს შესვლა.
+    action(input_card) 
 
-action()
 
+
+
+
+ 
 
 
 
