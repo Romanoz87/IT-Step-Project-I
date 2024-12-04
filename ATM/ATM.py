@@ -208,7 +208,7 @@ for _ in range(3):
     try:      
         input_card = int(input("input card number: _ "))
         if len(str(input_card)) != 9:
-            print("Allowed only 8 symbols")       
+            print("Allowed only 9 symbols")       
         else: 
             break
     except:
