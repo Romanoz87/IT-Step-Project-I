@@ -27,9 +27,11 @@ while True:
                     print(f"{number1} * {number2} = {number1 * number2}")
 
                 elif symbol == '/':
-                    if number1 == 0 or number2 == 0:
-                        raise ZeroDivisionError("You cannot divide by zero.")
-                    print(f"{number1} / {number2} = {number1 / number2}")
+                    try:
+                        print(f"{number1} / {number2} = {number1 / number2}")
+                    
+                    except ZeroDivisionError:
+                        print("You cannot divide by zero.")
 
                 elif symbol == '%':
                     number3 = number2/100*number1
