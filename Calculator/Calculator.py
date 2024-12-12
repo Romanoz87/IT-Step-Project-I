@@ -48,3 +48,5 @@ while True:
             print("Enter only numbers")
         except SyntaxError as sy:
             print("Not alowed mathematical action with symbols")
+        except TypeError as err:
+            print("',' symbol not allowed please use '.' instead")
